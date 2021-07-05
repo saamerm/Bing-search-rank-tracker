@@ -2,6 +2,8 @@ import sys
 import re
 import random
 from random import randint
+import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property
 from robobrowser import RoboBrowser
 import datetime
 import csv
@@ -70,13 +72,19 @@ def mobile(keyword,sitename,device,useragent):
                           user_agent=useragent,
                           parser=parser)
      
-    browser.open('https://www.google.com/search?num=100&q=' + keyword)
-    
-    #this is the div that only shows up on mobile device. This might change not sure :/ 
-    links = browser.find_all("div", {"class": "KJDcUb"})
-
-    # links = browser.find_all("div", {"class": "g"})
+    browser.open('https://www.bing.com/search?q=' + keyword)
      
+    # Uncomment to make sure you are not blocked and that you are getting results
+    #print(browser)
+    
+    links = browser.find_all("li", {"class": "b_algo"})
+    counter = 0
+
+    # Uncomment to Check to see if any li exists with the class b_algo
+    # print(linksC)
+    # for a in linksC:
+    #     print(a)
+
     counter = 0
 
 
@@ -111,13 +119,19 @@ def desktop(keyword,sitename,device,useragent):
                           user_agent=useragent,
                           parser=parser)
      
-    browser.open('https://www.google.com/search?num=100&q=' + keyword)
+    browser.open('https://www.bing.com/search?q=' + keyword)
      
-    # links = browser.find_all("div", {"class": "KJDcUb"})
+    # Uncomment to make sure you are not blocked and that you are getting results
+    #print(browser)
+    
+    links = browser.find_all("li", {"class": "b_algo"})
+    counter = 0
 
-    #desktop div where URLs are
-    links = browser.find_all("div", {"class": "g"})
-     
+    # Uncomment to Check to see if any li exists with the class b_algo
+    # print(linksC)
+    # for a in linksC:
+    #     print(a)
+
     counter = 0
 
     print('The user Agent you used was ----> ' + useragent)
@@ -157,7 +171,7 @@ def csv_export(d,keyword,device):
 
 
 #Keyword file
-keywords = pd.read_excel('keywords.xls')
+keywords = pd.read_excel('keywords.xlsx')
 
 #user agent checker. Here depending on what the user agent was passed in th sys arguments we perform diferent functions.
 if device == 'mobile' :
@@ -189,16 +203,3 @@ else:
         t = randint(1,10)
         print('Sleeping time is' ,t ,'Seconds')
         time.sleep(t)
-
-
-
-
-
-
-
-
-
-
-
-
-
