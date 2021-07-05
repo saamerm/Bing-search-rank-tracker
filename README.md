@@ -1,15 +1,15 @@
 
-# Google Keyword Ranking Check with Python 
+# Bing Keyword Ranking Check with Python 
 
 Are you poor and don’t have money to buy an enterprise rank tracker? Well, today is your lucky day. With this python script, 
-a shell script and crontab, you can automate Google rank checker in a few simple steps.
+a shell script and crontab, you can automate Bing rank checker in a few simple steps.
 I will explain step by step how to implement this and leave it running daily.
-One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords, Google will notice this and will start showing a captcha.
+One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords, Bing will notice this and will start showing a captcha.
 
 
 **Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The two options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
 
-**Update2**: Included a keyword.xls file that will run all your keywords from there. No need to add each one of those on the `.sh` file anymore. I also added a random sleep between queries so that Google won't catch us. The script now is more simple and easy to use.
+**Update2**: Included a keyword.xls file that will run all your keywords from there. No need to add each one of those on the `.sh` file anymore. I also added a random sleep between queries so that Bing won't catch us. The script now is more simple and easy to use, but they are smarter than that too.
 
 ## Table of Contents 
 
@@ -32,7 +32,7 @@ After all, dependencies are installed, we can start testing if the script is wor
 *Read the notes at the bottom if you are having issues*
 
 ## Running tests
-Before running any test, we want to go into the `keywords.xls` file and add the keywords we want to check the ranks. We can add as many as we wish to, but the more keywords, the higher the chances Google will block you. (I will soon include the option of using proxies.)
+Before running any test, we want to go into the `keywords.xls` file and add the keywords we want to check the ranks. We can add as many as we wish to, but the more keywords, the higher the chances Bing will block you. (I will soon include the option of using proxies.)
 
 After that, we open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
 
@@ -52,7 +52,7 @@ We want to check the website https://www.uselessthingstobuy.com/ on mobile again
 python3 rank.py https://www.uselessthingstobuy.com/ mobile
 ```
 
-This will output the keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose, and the date we did this rank check.
+This will output the keyword, the ranking of the keyword, the URL that is ranking on Bing, the device you chose, and the date we did this rank check.
 
 *Make sure that the device is lower case. If you misspell the device or add capital, the script will run using mobile device as default*
 
@@ -72,7 +72,7 @@ For example:
 Now that we tested that `rank.py` works fine, we will create a shell script that will run our python script.
 
 We create a new `.sh` file and add the terminal commands we ran before. Since we are running everything out of a keyword.xls file to make everything easier, we can call the script with the URL we want and the device we want to check in our `rank.sh` file. 
-So forget about adding multiple lines and sleep times. I included the sleep times on the script and they do random number between 1,10 so that Google wont catch us. So the only thing we need to have is the following:
+So forget about adding multiple lines and sleep times. I included the sleep times on the script and they do random number between 1,10 so that Bing wont catch us. So the only thing we need to have is the following:
 
 ```shell
 #! /bin/bash
@@ -143,6 +143,16 @@ So I changed the code around line 162 to my new keywords.xlsx file. and I needed
 
 ## Check if you are blocked
 
+You can try to run `python3 rank.py https://thefirstprototype.com/ mobile` instead and that will work ~5 times.
 To check if you are blocked, go to the function `def desktop(keyword,sitename,device,useragent):` and under the line `browser.open(...` add a line
-`print(browser)` to print the output. If you are blocked, it will say `<RoboBrowser url=https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dthe%2Bfirst_prototype&q=EgRsqoWdGLO1jYcGIhAgHPLrEoXTpalTKCP5PuFaMgFy>` in the output window. I went to the link in my browser, I said I am not a robot, and it redirected me to the Google Search. But when I came back to the Robobrowser, it still gave me the same error. I'm at a roadbloack now 
+`print(browser)` to print the output. If you are blocked, it will say `<RoboBrowser url=https://www.bing.com....>` in the output window. I'm not sure how to proceed.
+
+## Switch it to work wih Google Search
+
+If you are blocked by Bing, you use the Google browser instead. Just change these:
+- `links = browser.find_all("li", {"class": "b_algo"})` to this `links = browser.find_all("div", {"class": "KJDcUb"})` 
+- `browser.open('https://www.bing.com/search?q=' + keyword)` to this `browser.open('https://www.google.com/search?q=' + keyword)`   
+
+To check if you are blocked on Google, go to the function `def desktop(keyword,sitename,device,useragent):` and under the line `browser.open(...` add a line
+`print(browser)` to print the output, if you haven't already done that above. If you are blocked, it will say `<RoboBrowser url=https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dthe%2Bfirst_prototype&q=EgRsqoWdGLO1jYcGIhAgHPLrEoXTpalTKCP5PuFaMgFy>` in the output window. I went to the link in my browser, I said I am not a robot, and it redirected me to the Google Search. But when I came back to the Robobrowser, it still gave me the same error. I'm at a roadbloack now 
 
