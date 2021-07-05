@@ -17,7 +17,7 @@ One thing to note, currently the script does not use proxies to check for the ke
 - [Running Tests](#running-tests)
 - [Creating a Shell Script](#creating-a-shell-script)
 - [Cronjob](#cronjob)
-- [Contributing & Questions](#contributing-and-questions)
+- [Contributing, Questions, Other issues](#contributing-and-questions)
 
 ---
 
@@ -28,7 +28,8 @@ Installation of Python robobrowser
 ```shell
 pip install robobrowser
 ```
-After all, dependencies are installed, we can start testing if the script is working fine.
+After all, dependencies are installed, we can start testing if the script is working fine. 
+*Read the notes at the bottom if you are having issues*
 
 ## Running tests
 Before running any test, we want to go into the `keywords.xls` file and add the keywords we want to check the ranks. We can add as many as we wish to, but the more keywords, the higher the chances Google will block you. (I will soon include the option of using proxies.)
@@ -121,11 +122,22 @@ If you have any question or need help setting this up please open an issue and w
 
 Please take a look at this url for more info: [Link to issue](https://github.com/jmcarp/robobrowser/issues/93)
 
+Alternatively you can add these lines
+`import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property`
 
+before `import robobrowser` to solve the issue
 
+If you are having more issues, you can make sure to see if you have the required packages installed by following these steps:
 
+* `pip install pipreqs`
+* `pipreqs .`
+* `pip install -r requirements.txt`
 
+Additionally you might have a pandas issue, I solved that on my Mac using `pip3 install pandas`, 
+then I had to install `pip3 install xlrd`.
+and now I just run using `python3 rank.py https://thefirstprototype.com/ desktop`
 
-
-
+Since I don't have Microsoft Excel, when I tried to make changes to the keywords file, it only let me save it as a XLSX file.
+So I changed the code around line 162 to my new keywords.xlsx file. and I needed to do `pip3 install openpyxl` and then `python3 rank.py https://thefirstprototype.com/ desktop` worked again
 
