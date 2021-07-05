@@ -128,8 +128,8 @@ def desktop(keyword,sitename,device,useragent):
     counter = 0
 
     # Uncomment to Check to see if any li exists with the class b_algo
-    # print(linksC)
-    # for a in linksC:
+    # print(links)
+    # for a in links:
     #     print(a)
 
     counter = 0
