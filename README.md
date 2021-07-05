@@ -18,7 +18,7 @@ One thing to note, currently the script does not use proxies to check for the ke
 - [Creating a Shell Script](#creating-a-shell-script)
 - [Cronjob](#cronjob)
 - [Contributing, Questions, Other issues](#contributing-and-questions)
-
+- [Check if you are blocked](#check-if-you-are-blocked)
 ---
 
 ## Installation
@@ -140,4 +140,9 @@ and now I just run using `python3 rank.py https://thefirstprototype.com/ desktop
 
 Since I don't have Microsoft Excel, when I tried to make changes to the keywords file, it only let me save it as a XLSX file.
 So I changed the code around line 162 to my new keywords.xlsx file. and I needed to do `pip3 install openpyxl` and then `python3 rank.py https://thefirstprototype.com/ desktop` worked again
+
+## Check if you are blocked
+
+To check if you are blocked, go to the function `def desktop(keyword,sitename,device,useragent):` and under the line `browser.open(...` add a line
+`print(browser)` to print the output. If you are blocked, it will say `<RoboBrowser url=https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dthe%2Bfirst_prototype&q=EgRsqoWdGLO1jYcGIhAgHPLrEoXTpalTKCP5PuFaMgFy>` in the output window. I went to the link in my browser, I said I am not a robot, and it redirected me to the Google Search. But when I came back to the Robobrowser, it still gave me the same error. I'm at a roadbloack now 
 
